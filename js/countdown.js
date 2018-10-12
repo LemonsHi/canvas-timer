@@ -1,10 +1,10 @@
-const CANVAS_WIDTH = 1024
-const CANVAS_HEIGHT = 768
-const RADIUS = 8
-const MARGIN_TOP = 60
-const MARGIN_LEFT = 30
+let CANVAS_WIDTH = 1024
+let CANVAS_HEIGHT = 768
+let RADIUS = 8
+let MARGIN_TOP = 60
+let MARGIN_LEFT = 30
 
-const balls = []
+let balls = []
 const colors = ["#33B5E5","#0099CC","#AA66CC","#9933CC","#99CC00","#669900","#FFBB33","#FF8800","#FF4444","#CC0000"]
 
 const render = (hours, minutes, seconds, cxt) => {
@@ -72,7 +72,11 @@ const updateBalls = () => {
       balls[i].y = CANVAS_HEIGHT - RADIUS
       balls[i].vy = 0 - (balls[i].vy * 0.75)
     }
+    if (balls[i].x + RADIUS < 0 || balls[i].x - RADIUS > CANVAS_WIDTH) {
+      balls.splice(i, 1)
+    }
   }
+  console.log(balls.length)
 }
 
 const updata = () => {
@@ -119,11 +123,18 @@ const updata = () => {
 
 
 window.onload = () => {
+  CANVAS_WIDTH = document.body.clientWidth
+  CANVAS_HEIGHT = document.body.clientHeight
+
+  MARGIN_LEFT = Math.round(CANVAS_WIDTH / 10)
+  RADIUS = Math.round(CANVAS_WIDTH * 4 / 5 / 108) - 1
+  MARGIN_TOP = Math.round(CANVAS_HEIGHT / 5)
+
   let canvas = document.getElementById('canvas')
   let context = canvas.getContext('2d')
 
-  context.width = CANVAS_WIDTH
-  context.height = CANVAS_HEIGHT
+  canvas.width = CANVAS_WIDTH
+  canvas.height = CANVAS_HEIGHT
 
   let getTime = updata()
 
